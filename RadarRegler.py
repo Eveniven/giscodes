@@ -7,7 +7,7 @@ class RadargrammeController(QDialog):
         super().__init__()
         
         self.setWindowTitle("Radargramme Visualisierung")
-        self.resize(300, 100)
+        self.resize(300, 150)
         
         # Layergruppe suchen
         self.radar_group = QgsProject.instance().layerTreeRoot().findGroup("Radargramme")
@@ -31,12 +31,14 @@ class RadargrammeController(QDialog):
         self.slider.setValue(0)
         self.slider.valueChanged.connect(self.update_layers)
 
-        # Label für den aktuellen Layer
-        self.label = QLabel("Aktueller Layer: 0")
+        # Labels für Anzeige
+        self.label_layer_index = QLabel("Aktueller Layer: 0")
+        self.label_layer_name = QLabel("Layer-Name: ---")
 
         # Layout erstellen
         layout = QVBoxLayout()
-        layout.addWidget(self.label)
+        layout.addWidget(self.label_layer_index)
+        layout.addWidget(self.label_layer_name)
         layout.addWidget(self.slider)
         self.setLayout(layout)
 
@@ -45,7 +47,9 @@ class RadargrammeController(QDialog):
     
     def update_layers(self, value):
         """Aktualisiert die Sichtbarkeit und Transparenz der Layer basierend auf dem Sliderwert."""
-        self.label.setText(f"Aktueller Layer: {value + 1} von {len(self.tiff_layers)}")
+        current_layer = self.tiff_layers[value]
+        self.label_layer_index.setText(f"Aktueller Layer: {value + 1} von {len(self.tiff_layers)}")
+        self.label_layer_name.setText(f"Layer-Name: {current_layer.name()}")
 
         for i, layer in enumerate(self.tiff_layers):
             if i < value:
@@ -64,3 +68,4 @@ try:
     controller.exec_()
 except ValueError as e:
     iface.messageBar().pushWarning("Radargramme Tool", str(e))
+
