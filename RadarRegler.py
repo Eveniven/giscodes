@@ -64,7 +64,7 @@ class TiffSlider(QDialog):
 
 # Dialog starten
 try:
-    controller = RadargrammeController()
+    controller = TiffSlider()
     controller.exec_()
 except ValueError as e:
     iface.messageBar().pushWarning("Radargramme Tool", str(e))
