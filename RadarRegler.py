@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QSlider, QVBoxLayout, QDialog, QLabel
 from PyQt5.QtCore import Qt
 from qgis.core import QgsProject, QgsRasterLayer
 
-class RadargrammeController(QDialog):
+class TiffSlider(QDialog):
     def __init__(self):
         super().__init__()
         
