@@ -1,14 +1,67 @@
-from PyQt5.QtWidgets import QSlider, QVBoxLayout, QDialog, QLabel
+#_init_.py
+
+from .tiff_slider import TiffSlider
+from .resources import *
+
+def classFactory(iface):
+    return TiffSlider(iface)
+
+#plugin.py
+
+from qgis.PyQt.QtGui import QIcon
+from qgis.PyQt.QtWidgets import QAction
+from .tiff_slider_dialog import TiffSliderDialog
+from qgis.core import QgsMessageLog
+from qgis.PyQt.QtCore import QCoreApplication
+
+class TiffSlider:
+    def __init__(self, iface):
+        self.iface = iface
+        self.action = None
+
+    def initGui(self):
+        # Correct path to icon using embedded resources
+        icon_path = ":/plugins/tiff_slider/icon.png"  # Use the correct resource path
+    
+        # Create the QIcon using the correct path
+        icon = QIcon(icon_path)
+    
+        # Create the QAction and associate it with the icon and a label
+        self.action = QAction(icon, QCoreApplication.translate('TiffSlider', 'Radargramme Visualisierung'), self.iface.mainWindow())
+        self.action.triggered.connect(self.run)  # Connect the action to the run method
+ 
+        # Add the icon to the toolbar
+        self.iface.addToolBarIcon(self.action)
+ 
+        # Add the action to the plugin menu
+        self.iface.addPluginToMenu("&TiffSlider", self.action)
+
+    def unload(self):
+        # Remove the action from the plugin menu
+        self.iface.removePluginMenu("&TiffSlider", self.action)
+
+    def run(self):
+        # Create and execute the dialog
+        dialog = TiffSliderDialog(self.iface)
+        dialog.exec_()
+
+
+#plugin_dialog.py
+
+import os
+
+from PyQt5.QtWidgets import QDialog, QSlider, QVBoxLayout, QLabel
 from PyQt5.QtCore import Qt
 from qgis.core import QgsProject, QgsRasterLayer
 
-class TiffSlider(QDialog):
-    def __init__(self):
-        super().__init__()
-        
+class TiffSliderDialog(QDialog):
+    def __init__(self, iface, parent=None):
+        super().__init__(parent)
+        self.iface = iface
         self.setWindowTitle("Radargramme Visualisierung")
+
         self.resize(300, 150)
-        
+
         # Layergruppe suchen
         self.radar_group = QgsProject.instance().layerTreeRoot().findGroup("Radargramme")
         if not self.radar_group:
@@ -44,7 +97,7 @@ class TiffSlider(QDialog):
 
         # Layer initial einstellen
         self.update_layers(0)
-    
+
     def update_layers(self, value):
         """Aktualisiert die Sichtbarkeit und Transparenz der Layer basierend auf dem Sliderwert."""
         current_layer = self.tiff_layers[value]
@@ -61,11 +114,4 @@ class TiffSlider(QDialog):
             
             # Rendereränderungen anwenden
             layer.triggerRepaint()
-
-# Dialog starten
-try:
-    controller = TiffSlider()
-    controller.exec_()
-except ValueError as e:
-    iface.messageBar().pushWarning("Radargramme Tool", str(e))
 
