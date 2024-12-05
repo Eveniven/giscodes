@@ -12,8 +12,8 @@ email=i.wustrau@dimanet.de
 
 about=This plugin allows you to seamlessly switch between .tiff layers within a selected group using a horizontal slider. Designed with simplicity and efficiency in mind, it is particularly useful for visualizing Ground Penetrating Radar (GPR) radargrams to analyze changes in ground structure over time or space. With this tool, users can quickly compare layers and enhance their interpretation of subsurface data. Perfect for geologists, archaeologists, and engineers working with geospatial imagery.
 
-tracker=https://github.com/Eveniven/tiffslider/issues
-repository=https://github.com/Eveniven/tiffslider
+tracker=https://github.com/Eveniven/giscodes/issues
+repository=https://github.com/Eveniven/giscodes
 # End of mandatory metadata
 
 # Recommended items:
@@ -25,7 +25,7 @@ hasProcessingProvider=no
 # Tags are comma separated with spaces allowed
 tags=python
 
-homepage=https://github.com/Eveniven/tiffslider
+homepage=https://github.com/Eveniven/giscodes
 category=Raster
 icon=icon.png
 # experimental flag
