@@ -1,0 +1,47 @@
+# This file contains metadata for your plugin.
+
+# This file should be included when you package your plugin.# Mandatory items:
+
+[general]
+name=TiffSlider
+qgisMinimumVersion=3.0
+description=This plugin lets you switch effortlessly between .tiff-layers in your chosen group via horizontal slider. It was mainly scripted to visualize GPR radargrams to depict the change of ground structure.
+version=0.1
+author=Eveniven
+email=i.wustrau@dimanet.de
+
+about=This plugin allows you to seamlessly switch between .tiff layers within a selected group using a horizontal slider. Designed with simplicity and efficiency in mind, it is particularly useful for visualizing Ground Penetrating Radar (GPR) radargrams to analyze changes in ground structure over time or space. With this tool, users can quickly compare layers and enhance their interpretation of subsurface data. Perfect for geologists, archaeologists, and engineers working with geospatial imagery.
+
+tracker=https://github.com/Eveniven/tiffslider/issues
+repository=https://github.com/Eveniven/tiffslider
+# End of mandatory metadata
+
+# Recommended items:
+
+hasProcessingProvider=no
+# Uncomment the following line and add your changelog:
+# changelog=
+
+# Tags are comma separated with spaces allowed
+tags=python
+
+homepage=https://github.com/Eveniven/tiffslider
+category=Raster
+icon=icon.png
+# experimental flag
+experimental=False
+
+# deprecated flag (applies to the whole plugin, not just a single version)
+deprecated=False
+
+# Since QGIS 3.8, a comma separated list of plugins to be installed
+# (or upgraded) can be specified.
+# Check the documentation for more information.
+# plugin_dependencies=
+
+Category of the plugin: Raster, Vector, Database or Web
+# category=
+
+# If the plugin can run on QGIS Server.
+server=False
+
