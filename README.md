@@ -6,4 +6,4 @@
 
 ## Updates
 
-12/06/24 - updated GUI 
+12/06/24 - updated GUI and translated to english
