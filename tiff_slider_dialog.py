@@ -30,7 +30,7 @@ from qgis.core import QgsProject, QgsRasterLayer, QgsLayerTreeGroup
 
 class TiffSliderDialog(QDialog):
     def __init__(self, iface):
-        """Initialisiert den Dialog."""
+        """Initializes the dialog."""
         super().__init__()
         self.iface = iface
         self.tiff_layers = []
@@ -38,22 +38,22 @@ class TiffSliderDialog(QDialog):
         self.populate_layer_groups()
 
     def setup_ui(self):
-        """Setzt die Benutzeroberfläche auf."""
+        """Sets up the user interface."""
         self.setWindowTitle("Tiff Slider")
         self.resize(300, 150)
         
-        # Widgets erstellen
-        self.label_info = QLabel("Wähle eine Layergruppe:")
+        # Create widgets
+        self.label_info = QLabel("Select a layer group:")
         self.combo_group = QComboBox()
         self.slider = QSlider(Qt.Horizontal)
-        self.label_layer_index = QLabel("Aktueller Layer: ---")
-        self.label_layer_name = QLabel("Layer-Name: ---")
+        self.label_layer_index = QLabel("Current layer: ---")
+        self.label_layer_name = QLabel("Layer name: ---")
         
-        # Slider initialisieren
+        # Initialize slider
         self.slider.setMinimum(0)
         self.slider.valueChanged.connect(self.update_layers)
 
-        # Layout setzen
+        # Set layout
         layout = QVBoxLayout()
         layout.addWidget(self.label_info)
         layout.addWidget(self.combo_group)
@@ -62,21 +62,21 @@ class TiffSliderDialog(QDialog):
         layout.addWidget(self.slider)
         self.setLayout(layout)
 
-        # Verbindung herstellen
+        # Connect signals
         self.combo_group.currentIndexChanged.connect(self.on_group_selection)
 
     def populate_layer_groups(self):
-        """Füllt die ComboBox mit allen Layergruppen."""
-        self.combo_group.clear()  # Vorherige Auswahlmöglichkeiten löschen
+        """Populates the ComboBox with all layer groups."""
+        self.combo_group.clear()  # Clear previous options
         root = QgsProject.instance().layerTreeRoot()
         
-        # Alle Gruppen aus dem Layer-Tree hinzufügen
+        # Add all groups from the layer tree
         for group in root.children():
             if isinstance(group, QgsLayerTreeGroup):
                 self.combo_group.addItem(group.name(), group)
 
     def on_group_selection(self, index):
-        """Wird aufgerufen, wenn eine Gruppe in der ComboBox ausgewählt wird."""
+        """Called when a group is selected in the ComboBox."""
         group = self.combo_group.itemData(index)
         if group:
             self.tiff_layers = [
@@ -86,29 +86,29 @@ class TiffSliderDialog(QDialog):
             ]
             
             if not self.tiff_layers:
-                self.label_layer_index.setText("Keine Raster-Layer gefunden.")
+                self.label_layer_index.setText("No raster layers found.")
                 self.slider.setMaximum(0)
                 return
 
-            # Slider konfigurieren
+            # Configure slider
             self.slider.setMaximum(len(self.tiff_layers) - 1)
             self.slider.setValue(0)
             self.update_layers(0)
 
     def update_layers(self, value):
-        """Aktualisiert die Anzeige und Sichtbarkeit der Layer basierend auf dem Sliderwert."""
+        """Updates the display and visibility of layers based on the slider value."""
         if not self.tiff_layers:
             return
 
         current_layer = self.tiff_layers[value]
-        self.label_layer_index.setText(f"Aktueller Layer: {value + 1} von {len(self.tiff_layers)}")
-        self.label_layer_name.setText(f"Layer-Name: {current_layer.name()}")
+        self.label_layer_index.setText(f"Current layer: {value + 1} of {len(self.tiff_layers)}")
+        self.label_layer_name.setText(f"Layer name: {current_layer.name()}")
 
         for i, layer in enumerate(self.tiff_layers):
             if i == value:
-                layer.renderer().setOpacity(1.0)  # Aktueller Layer vollständig sichtbar
+                layer.renderer().setOpacity(1.0)  # Current layer fully visible
             else:
-                layer.renderer().setOpacity(0.0)  # Andere Layer unsichtbar
+                layer.renderer().setOpacity(0.0)  # Other layers invisible
             
-            # Änderungen anwenden
+            # Apply changes
             layer.triggerRepaint()
