@@ -87,6 +87,7 @@ class TiffSliderDialog(QDialog):
             
             if not self.tiff_layers:
                 self.label_layer_index.setText("No raster layers found.")
+                self.label_layer_name.setText("Layer name: ---")
                 self.slider.setMaximum(0)
                 return
 
@@ -94,6 +95,12 @@ class TiffSliderDialog(QDialog):
             self.slider.setMaximum(len(self.tiff_layers) - 1)
             self.slider.setValue(0)
             self.update_layers(0)
+        else:
+            # Clear labels and reset the slider if no valid group is selected
+            self.tiff_layers = []
+            self.label_layer_index.setText("No raster layers found.")
+            self.label_layer_name.setText("Layer name: ---")
+            self.slider.setMaximum(0)
 
     def update_layers(self, value):
         """Updates the display and visibility of layers based on the slider value."""
@@ -112,3 +119,4 @@ class TiffSliderDialog(QDialog):
             
             # Apply changes
             layer.triggerRepaint()
+
