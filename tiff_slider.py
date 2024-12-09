@@ -40,7 +40,7 @@ class TiffSlider:
         icon = QIcon(icon_path)
     
         # Create the QAction and associate it with the icon and a label
-        self.action = QAction(icon, QCoreApplication.translate('TiffSlider', 'Radargramme Visualisierung'), self.iface.mainWindow())
+        self.action = QAction(icon, QCoreApplication.translate('TiffSlider', 'Radargram Visualization'), self.iface.mainWindow())
         self.action.triggered.connect(self.run)  # Connect the action to the run method
  
         # Add the icon to the toolbar
